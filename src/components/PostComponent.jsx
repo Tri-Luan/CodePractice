@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "../style/post.css";
 import axios from "axios";
-
-var URI = "http://104.248.145.103:4000/";
+import { baseUrl } from "../shared/baseUrl"
 
 class Post extends Component {
   constructor(props) {
@@ -205,7 +204,7 @@ class Post extends Component {
   }
   // Post dữ liệu đi
   postQuestionProcess() {
-    axios.get(URI + "questions/getlastid").then((response) => {
+    axios.get(baseUrl + "questions/getlastid").then((response) => {
       var data = response.data;
       var Question_id = Number(data[0].Question_id) + 1;
       this.runPostQuestion(Question_id);
@@ -236,15 +235,14 @@ class Post extends Component {
       CreateDate: date,
       Topic: topic,
       Level: level,
-      Author_id: sessionStorage.getItem("Author_id"),
+      Author_id: sessionStorage.getItem("Author_Id"),
     };
-    console.log(param);
     this.submitQuestion(param, Question_id);
     alert("Success!");
   }
 
   submitQuestion(param, Question_id) {
-    axios.post(URI + "questions/add", param).then((response) => {
+    axios.post(baseUrl + "questions/add", param).then((response) => {
       // var result = response.data;
       this.runPostSampleTestCase(Question_id);
     });
@@ -267,7 +265,7 @@ class Post extends Component {
   }
 
   submitSampleTestCase(param, i, totalSampleTestCase, Question_id) {
-    axios.post(URI + "sampletestcases/add", param).then((response) => {
+    axios.post(baseUrl + "sampletestcases/add", param).then((response) => {
       if (i === totalSampleTestCase - 1) {
         this.runPostTestCase(Question_id);
       }
@@ -291,7 +289,7 @@ class Post extends Component {
   }
 
   submitTestCase(param, i, totalTestCase) {
-    axios.post(URI + "testcases/add", param).then((response) => {
+    axios.post(baseUrl + "testcases/add", param).then((response) => {
       if (i === totalTestCase - 1) {
         window.location.reload();
       }
