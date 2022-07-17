@@ -14,7 +14,6 @@ import { oneDark } from "@codemirror/theme-one-dark";
 import { okaidia } from "@uiw/codemirror-theme-okaidia";
 import { eclipse } from "@uiw/codemirror-theme-eclipse";
 
-
 //Import CSS
 import "../style/IDE.css";
 import { Listbox, Transition, Switch } from "@headlessui/react";
@@ -69,9 +68,9 @@ class Editor extends PureComponent {
       isShowing: false,
       isError: false,
       error: null,
-      content:[],
-      disabled:true,
-      disabledButton:"Đang xử lý",
+      content: [],
+      disabled: true,
+      disabledButton: "Đang xử lý",
     };
   }
   async componentDidMount() {
@@ -203,12 +202,10 @@ class Editor extends PureComponent {
                       `pills-` + sampleTestCases.ID + `-tabVertical`
                     }
                   >
+                    <h1 className="text-sm font-bold mb-2">Kiểm thử <span className=" text-blue-400"> {Idx + 1}</span></h1>
                     <h1>Đầu vào: {sampleTestCases.Input}</h1>
                     <h1>
                       Đầu ra thực tế: {sampleTestCases.output}
-                      {/* {this.state.result.length > 0
-                      ? this.state.result[Idx].output
-                      : "null"} */}
                     </h1>
                     <h1>Đầu ra mong muốn: {sampleTestCases.Output}</h1>
                   </div>
@@ -222,6 +219,7 @@ class Editor extends PureComponent {
                       `pills-` + sampleTestCases.ID + `-tabVertical`
                     }
                   >
+                    <h1 className="text-sm font-bold mb-2">Kiểm thử <span className=" text-blue-400"> {Idx + 1}</span></h1>
                     <h1>Đầu vào: {sampleTestCases.Input}</h1>
                     <h1>
                       Đầu ra thực tế: {sampleTestCases.output}
@@ -351,25 +349,31 @@ class Editor extends PureComponent {
         this.checkTestCase(
           testCaseList[i].Output,
           testCaseList[i].Input,
-          result,
+          result
         );
       });
     }
-    this.setState({ disabled: false});
-    this.setState({ disabledButton:"Nộp Bài"});
+    this.setState({ disabled: false });
+    this.setState({ disabledButton: "Nộp Bài" });
   }
   checkTestCase(Output, Input, result) {
     if (result.outcome === 15) {
       if (Output == result.stdout) {
         let temp = { accurate: "true", input: Input, output: result.stdout };
         this.setState({
-          result: this.state.result.concat(temp)
+          result: this.state.result.concat(temp),
         });
         sessionStorage.setItem(
           "Pass",
           Number(sessionStorage.getItem("Pass")) + 1
         );
       } else {
+        var input = String("Fail_Input" + this.state.count);
+        var output = String("Fail_Output" + this.state.count);
+        var actual_Output = String("Fail_Actual_Output" + this.state.count);
+        var data_input = String("Đầu vào: " + Input);
+        var data_output = String(" Đầu ra mong muốn: " + Output);
+        var data_actual_output = String(" Đầu ra thực tế: " + result.stdout);
         var name = String("Fail" + this.state.count);
         var data = String(
           "Đầu vào: " +
@@ -380,6 +384,9 @@ class Editor extends PureComponent {
             result.stdout
         );
         sessionStorage.setItem(name, data);
+        sessionStorage.setItem(input, data_input);
+        sessionStorage.setItem(output, data_output);
+        sessionStorage.setItem(actual_Output, data_actual_output);
         this.setState({ count: this.state.count + 1 });
       }
     } else if (result.outcome !== 15) {
@@ -465,8 +472,7 @@ class Editor extends PureComponent {
   renderHistory(data) {
     var content = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].Question_id==this.state.Question_id)
-      {
+      if (data[i].Question_id == this.state.Question_id) {
         content.push(
           <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -767,7 +773,7 @@ class Editor extends PureComponent {
       <section>
         {/* Breadcrumb Start */}
         <nav
-          className="flex py-3 px-5 text-gray-700 bg-gray-50  border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+          className="flex py-2 px-4 text-gray-700 bg-gray-50  border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
           aria-label="Breadcrumb"
         >
           <ol className="inline-flex items-center space-x-1 md:space-x-3">

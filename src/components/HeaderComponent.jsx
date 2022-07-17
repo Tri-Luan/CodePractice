@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
-import { NavLink, Link,useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FingerPrintIcon } from "@heroicons/react/solid";
 
 const HeaderComponent = () => {
-
   // Active navbar
   // let activeStyle = {
   //   textDecoration: "underline",
@@ -56,6 +55,14 @@ const HeaderComponent = () => {
                     }
                   >
                     Luyện tập
+                  </NavLink>
+                  <NavLink
+                    to="/score-board"
+                    className={({ isActive }) =>
+                      isActive ? activeClassName : normalStyle
+                    }
+                  >
+                    Bảng chấm code
                   </NavLink>
                   {role === "Author" ? (
                     <NavLink
@@ -139,22 +146,29 @@ const HeaderComponent = () => {
                     className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-3s m-0 bg-clip-padding border-none left-auto right-0"
                     aria-labelledby="dropdownMenuButton2"
                   >
-                    <li className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
-                      Xin chào{" "}
-                      <span className="text-blue-600">
-                        {sessionStorage.getItem("Student_FullName")}
-                      </span>
-                    </li>
                     {sessionStorage.getItem("Role") === "Student" ? (
-                      <li>
-                        <Link
-                          to="/history"
-                          className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                        >
-                          Lịch sử nộp bài
-                        </Link>
+                      <li className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                        Xin chào{" "}
+                        <span className="text-blue-600">
+                          {sessionStorage.getItem("Student_FullName")}
+                        </span>
                       </li>
-                    ) : null}
+                    ) : (
+                      <li className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                        Xin chào{" "}
+                        <span className="text-blue-600">
+                          {sessionStorage.getItem("Author_FullName")}
+                        </span>
+                      </li>
+                    )}
+                    <li>
+                      <Link
+                        to="/history"
+                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                      >
+                        Lịch sử nộp bài
+                      </Link>
+                    </li>
 
                     <li>
                       <button

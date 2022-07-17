@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { baseUrl } from "../shared/baseUrl";
 import congraratulation from "../assets/images/congratulation.gif";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Result = () => {
   const [navigate, setNavigate] = useState(false);
@@ -18,8 +18,8 @@ const Result = () => {
           dangerouslySetInnerHTML={displayTestCaseFail()}
         />
         <h1 className="mt-4 text-3xl font-medium text-center text-danger">
-          Đạt: {sessionStorage.getItem("Pass")} /
-          {sessionStorage.getItem("Total_TestCases")} test cases
+          Kết quả: {sessionStorage.getItem("Pass")}/
+          {sessionStorage.getItem("Total_TestCases")} Test Cases
         </h1>
       </>
     );
@@ -28,7 +28,6 @@ const Result = () => {
   const addHistoryResultProcess = () => {
     var questionId = sessionStorage.getItem("Question_id");
     var questionDescription = sessionStorage.getItem("Description");
-    var studentId = sessionStorage.getItem("Student_Id");
     var pass = String(
       sessionStorage.getItem("Pass") +
         "/" +
@@ -49,21 +48,42 @@ const Result = () => {
       today.getMinutes() +
       ":" +
       today.getSeconds();
-    var param = {
-      Question_id: questionId,
-      question_description: questionDescription,
-      Student_id: studentId,
-      Pass: pass,
-      Testcase_fail: testCaseFail,
-      Languages: String(sessionStorage.getItem("Languages")),
-      Source_code: sourceCode,
-      Submit_date: date,
-    };
-    postHistoryResult(param);
+    if (sessionStorage.getItem("Role") === "Student")
+    { 
+      var studentId = sessionStorage.getItem("Student_Id");
+      let param = {
+        Question_id: questionId,
+        question_description: questionDescription,
+        Student_id: studentId,
+        Pass: pass,
+        Testcase_fail: testCaseFail,
+        Languages: String(sessionStorage.getItem("Languages")),
+        Source_code: sourceCode,
+        Submit_date: date,
+      };
+      console.log("param",param);
+      postHistoryResult(param,"historypractices/add");
+    } else if (sessionStorage.getItem("Role") === "Author")
+    {
+      var authorId = sessionStorage.getItem("Author_Id");
+      console.log("authorId", authorId);
+      let param = {
+        Question_id: questionId,
+        Question_description: questionDescription,
+        Author_id: authorId,
+        Pass: pass,
+        Testcase_fail: testCaseFail,
+        Languages: String(sessionStorage.getItem("Languages")),
+        Source_code: sourceCode,
+        Submit_date: date,
+      };
+      console.log("param",param);
+      postHistoryResult(param,"authorhistorypractices/add");
+    }
   };
 
-  const postHistoryResult = (param) => {
-    axios.post(baseUrl + "historypractices/add", param).then((response) => {
+  const postHistoryResult = (param,URL) => {
+    axios.post(baseUrl + URL, param).then((response) => {
       var result = response.data;
       console.log(result);
     });
@@ -91,10 +111,16 @@ const Result = () => {
     let content = ``;
     if (temp !== 0) {
       for (var i = 0; i < temp; i++) {
-        var name = String("Fail" + i);
+        var input = String("Fail_Input" + i);
+        var output = String("Fail_Output" + i);
+        var actual_Output = String("Fail_Actual_Output" + i);
         content += `<h2 className="text-red-600">Testcase false ${
           i + 1
-        }</h2><p>${sessionStorage.getItem(name)}</p>`;
+        }</h2><p>${sessionStorage.getItem(
+          input
+        )}</p><p>${sessionStorage.getItem(
+          output
+        )}</p><p>${sessionStorage.getItem(actual_Output)}</p><br/>`;
       }
     }
     return { __html: content };
@@ -105,7 +131,7 @@ const Result = () => {
       sessionStorage.getItem("Total_TestCases") -
       sessionStorage.getItem("Pass");
     if (tmp !== 0) {
-      for (var i = 0; i <tmp; i++) {
+      for (var i = 0; i < tmp; i++) {
         var name = String("Fail" + i);
         sessionStorage.removeItem(name);
       }
@@ -118,7 +144,7 @@ const Result = () => {
       sessionStorage.getItem("Total_TestCases") -
       sessionStorage.getItem("Pass");
     if (tmp !== 0) {
-      for (var i = 0; i <tmp; i++) {
+      for (var i = 0; i < tmp; i++) {
         var name = String("Fail" + i);
         sessionStorage.removeItem(name);
       }
@@ -133,9 +159,6 @@ const Result = () => {
         className="mx-auto my-5 rounded shadow-lg"
         alt="congratulation"
       />
-      <h2 className="text-3xl font-bold mb-3 pb-4 text-center">
-        Nộp bài thành công
-      </h2>
       <div className="row justify-content-around">
         <form
           action=""
@@ -145,20 +168,21 @@ const Result = () => {
             Kết quả
           </h1>
           {displayResult()}
-          <button
-            className="btn btn-primary btn-lg btn-block mt-5"
-            onClick={() => handleButton_Back()}
-          >
-            Quay lại luyện tập
-          </button>
-          {sessionStorage.getItem("Role") === "Student" ? (
+          <div className="text-center">
             <button
-              className="btn bg-lime-600 btn-lg btn-block mt-5"
+              className="btn btn-primary btn-lg rounded-3xl mx-3 mt-5"
+              onClick={() => handleButton_Back()}
+            >
+              Quay lại luyện tập
+            </button>
+            
+            <button
+              className="btn bg-lime-600 hover:bg-lime-700 rounded-3xl text-white btn-lg mt-5"
               onClick={() => addHistoryResultProcess()}
             >
               Lưu lịch sử làm bài
             </button>
-          ) : null}
+          </div>
         </form>
       </div>
     </div>

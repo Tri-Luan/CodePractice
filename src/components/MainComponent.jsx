@@ -16,6 +16,7 @@ import Result from "./ResultComponent";
 import Login from "./LoginComponent";
 import Register from "./RegisterComponent";
 import { AuthProvider } from "./auth";
+import ScoreBoard from "./ScoreBoardComponent";
 
 const mapStateToProps = (state) => {
   return {
@@ -118,9 +119,6 @@ class Main extends Component {
     const LoginPage = () => {
       return (
         <div>
-          {/* <Header />
-          <Result />
-          <Footer /> */}
           <Login />
         </div>
       );
@@ -128,10 +126,16 @@ class Main extends Component {
     const RegisterPage = () => {
       return (
         <div>
-          {/* <Header />
-          <Result />
-          <Footer /> */}
           <Register />
+        </div>
+      );
+    };
+    const ScoreBoardPage = () => {
+      return (
+        <div>
+          <Header />
+          <ScoreBoard />
+          <Footer />
         </div>
       );
     };
@@ -143,6 +147,7 @@ class Main extends Component {
             <Route path="/practice" element={<PracticePage />}></Route>
             <Route path="/post" element={<PostPage />}></Route>
             <Route path="/history" element={<HistoryPage />}></Route>
+            <Route path="/score-board" element={<ScoreBoardPage />}></Route>
             <Route path="/result" element={<ResultPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>

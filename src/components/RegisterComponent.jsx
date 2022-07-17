@@ -34,7 +34,7 @@ class Register extends Component {
                                     <input type="text" className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="fullname" placeholder="Họ và tên" required />
                                 </div>
                                 <div className="mb-6">
-                                    <input type='number' className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="phone-number" placeholder="Số điện thoại" />
+                                    <input type='tel' className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="phone-number" placeholder="Số điện thoại 0123-456-789" />
                                 </div>
                                 <div className="mb-6">
                                     <select required className="block w-full px-4 py-2 text-xl font-normal text-gray-700 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" style={{ height: 46 }} id='role'>

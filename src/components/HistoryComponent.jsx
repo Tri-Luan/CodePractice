@@ -20,11 +20,15 @@ class History extends Component {
   }
   getHistory() {
     this.setState({ content: [] });
+    let id="";
+    if (sessionStorage.getItem("Role") === "Student")
+    id = sessionStorage.getItem("Student_Id");
+    else id = sessionStorage.getItem("Author_Id");
     axios
       .get(
         baseUrl +
-          "historypractices/gethistorypractice/" +
-          sessionStorage.getItem("Student_Id")
+          "authorhistorypractices/gethistorypractice/" +
+          id
       )
       .then((response) => {
         var data = response.data;
@@ -35,7 +39,7 @@ class History extends Component {
     var content = [];
     for (let i = 0; i < data.length; i++) {
       content.push(
-        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+        <tr class=" border-b transition duration-300 ease-in-out hover:bg-gray-200">
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
             {i + 1}
           </td>
@@ -90,7 +94,7 @@ class History extends Component {
             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
               <div class="overflow-hidden">
                 <table class="min-w-full">
-                  <thead class="bg-white border-b">
+                  <thead class="bg-gray-300 border-b">
                     <tr>
                       <th
                         scope="col"
